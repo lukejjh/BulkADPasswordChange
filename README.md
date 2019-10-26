@@ -26,3 +26,31 @@ Set the same password for all users (not recommended):
 ```powershell
 .\BulkADPasswordChange.ps1 -Password "CorrectHorseBatteryStaple" -ChangePasswordAtLogon
 ```
+
+#### Output
+```
+PS C:\Scripts> .\BulkADPasswordChange.ps1
+Temporary password change group created. Press Enter to open ADUC and add users and/or groups to "PasswordChange-2019-10-26-637076972828943989".
+
+Press Enter when all required members have been added to group.
+
+
+Name           Username       Password
+----           --------       --------
+Matt Damon     matt.damon     FunPlateLove2
+Alec Baldwin   alec.baldwin   TheNineRude97
+George Clooney george.clooney WildZeroBurn88
+
+
+The above password changes will be made. Results will be exported to a CSV file. Continue? [N/y] y
+Results saved to "C:\Scripts\PasswordChange-2019-10-26-637076972828943989.csv".
+Done.
+```
+
+*PasswordChange-2019-10-26-637076972828943989.csv*
+```
+"Name","Username","Password"
+"Matt Damon","matt.damon","FunPlateLove2"
+"Alec Baldwin","alec.baldwin","TheNineRude97"
+"George Clooney","george.clooney","WildZeroBurn88"
+```
