@@ -48,30 +48,34 @@ $PasswordChangeUsers | % {
     $NewPassword = GeneratePassword
   }
   $Results += [PSCustomObject]@{
-    "Name"      = $_.DisplayName
-    "Username"  = $_.SamAccountName
-    "SID"       = ($_.SID).Value
-    "Password"  = $NewPassword
+    "Name"               = $_.DisplayName
+    "Username"           = $_.SamAccountName
+    "Email"              = $_.EmailAddress
+    "MobilePhone"        = $_.MobilePhone
+    "Phone"              = $_.telephoneNumber
+    "Office"             = $_.physicalDeliveryOfficeName
+    "SID"                = ($_.SID).Value
+    "Password"           = $NewPassword
   }
 }
 
 $Results | Format-Table Name, Username, Password -AutoSize
 Write-Host -NoNewline "The above password changes will be made. Results will be exported to a CSV file. Continue? [N/y] "
-if ((Read-Host).ToLower() -ne "y") {
-  Write-Host "Aborted."
-  Exit
-}
+if ((Read-Host).ToLower() -eq "y") {
+  $CSVFile = Join-Path $PSScriptRoot "PasswordChange-$DateSuffix.csv"
+  $Results | select Name, Username, Password, Email, MobilePhone, Phone, Office | Export-Csv -NoTypeInformation $CSVFile
+  Write-Host "Results saved to `"${CSVFile}`"."
 
-$CSVFile = Join-Path $PSScriptRoot "PasswordChange-$DateSuffix.csv"
-$Results | select Name, Username, Password | Export-Csv -NoTypeInformation $CSVFile
-Write-Host "Results saved to `"${CSVFile}`"."
-
-$Results | % {
-  Set-ADAccountPassword $_.SID -NewPassword (ConvertTo-SecureString -AsPlainText $_.Password -Force)
-  if ($ChangePasswordAtLogon) {
-    Set-ADUser $_.SID -ChangePasswordAtLogon:$true
+  $Results | % {
+    Set-ADAccountPassword $_.SID -NewPassword (ConvertTo-SecureString -AsPlainText $_.Password -Force)
+    if ($ChangePasswordAtLogon) {
+      Set-ADUser $_.SID -ChangePasswordAtLogon:$true
+    }
   }
-}
-Remove-ADGroup $PasswordChangeGroup -Confirm:$false
 
-Write-Host "Done."
+  Write-Host "Done."
+} else {
+  Write-Host "Aborted."
+}
+
+Remove-ADGroup $PasswordChangeGroup -Confirm:$false
