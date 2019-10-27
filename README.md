@@ -47,10 +47,10 @@ Results saved to "C:\Scripts\PasswordChange-2019-10-26-637076972828943989.csv".
 Done.
 ```
 
-*PasswordChange-2019-10-26-637076972828943989.csv*
+PasswordChange-2019-10-26-637076972828943989.csv:
 ```
-"Name","Username","Password"
-"Matt Damon","matt.damon","FunPlateLove2"
-"Alec Baldwin","alec.baldwin","TheNineRude97"
-"George Clooney","george.clooney","WildZeroBurn88"
+"Name","Username","Password","Email","MobilePhone","Phone","Office"
+"Matt Damon","matt.damon","FunPlateLove2","matt.damon@example.org","0455555555","0755555555","Brisbane"
+"Alec Baldwin","alec.baldwin","TheNineRude97","alec.baldwin@example.org","0455555556","0755555556","Paris"
+"George Clooney","george.clooney","WildZeroBurn88","george.clooney@example.org","0455555557","0755555558","London"
 ```
